@@ -1,0 +1,3 @@
+# Use the URL of your project from Stacksmith UI
+appId: https://stacksmith.bitnami.com/p/PROJECT_NAME/apps/ID
+appVersion: "1.0.0"
