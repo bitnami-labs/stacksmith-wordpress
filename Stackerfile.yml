@@ -1,3 +1,8 @@
 # Use the URL of your project from Stacksmith UI
 appId: https://stacksmith.bitnami.com/p/PROJECT_NAME/apps/ID
 appVersion: "1.0.0"
+files:
+  userScripts:
+    build: stacksmith/user-scripts/build.sh
+    boot: stacksmith/user-scripts/boot.sh
+    run: stacksmith/user-scripts/run.sh
