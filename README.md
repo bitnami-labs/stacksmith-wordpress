@@ -44,3 +44,22 @@ This script takes care of configuring the application.
 ### run.sh
 
 This script takes care of starting the application.
+
+### Installing plugins
+
+You can add extra plugins by specifing them in the `boot.sh` script:
+
+```bash
+readonly plugin_names="akismet all-in-one-wp-migration"
+```
+
+You can also download the zip files in <https://wordpress.org/plugins/> and add them as `Application files` in the Stacksmith UI. Then, Stacksmith will repackage your application with those plugins.
+
+If you are using the Stacksmith CLI, you can add the zip plugin files in the `stacksmith/user-uploads/` directory and reference them in the `Stackerfile.yml`:
+
+```diff
+     boot: stacksmith/user-scripts/boot.sh
+     run: stacksmith/user-scripts/run.sh
++  userUploads:
++    - stacksmith/user-uploads/jetpack.6.6.1.zip
+```

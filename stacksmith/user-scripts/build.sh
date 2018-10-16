@@ -10,21 +10,24 @@ installDependencies() {
     yum install -y php php-common php-mysql php-gd php-xml php-mbstring php-mcrypt php-xmlrpc
 }
 
-installWordPress() {
-    # The directory where WordPress is installed
-    readonly installdir='/var/www/html'
-
+installWordPressCLI() {
     echo "==> Downloading WordPress CLI"
     curl -Lo '/usr/bin/wp' https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     chmod +x '/usr/bin/wp'
+}
 
+downloadWordPress() {
     echo "==> Downloading WordPress..."
     wp --path=$installdir core download
 }
 
 main() {
+    # The directory where WordPress is installed
+    readonly installdir='/var/www/html'
+
     installDependencies
-    installWordPress
+    installWordPressCLI
+    downloadWordPress
 }
 
 main

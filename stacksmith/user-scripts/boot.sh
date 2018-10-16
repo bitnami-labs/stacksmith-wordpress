@@ -2,10 +2,6 @@
 
 set -euo pipefail
 
-isWordPressInstalled() {
-    wp --path=$installdir core is-installed
-}
-
 waitForDatabase() {
     while ! wp --path=$installdir db check --quiet; do
         echo "==> Waiting for database to become available..."
@@ -33,18 +29,27 @@ installWordPress() {
         --admin_email="email@domain.com"
 }
 
+installPlugins() {
+    readonly plugin_names="akismet all-in-one-wp-migration"
+
+    echo "==> Installing plugins by name..."
+    wp --path=$installdir plugin install $plugin_names --activate
+
+    echo "==> Installing uploaded plugins if provided..."
+    for plugin in $(find $UPLOADS_DIR -name *.zip ); do
+        wp --path=$installdir plugin install $plugin --activate
+    done
+    chown -R apache ${installdir}/wp-content/plugins/*
+}
+
 main() {
     # The directory where WordPress is installed
     readonly installdir='/var/www/html'
 
-    # Configure WordPress only one time
-    if isWordPressInstalled; then
-        echo "==> WordPress is already installed"
-    else
-        configureWordPress
-        waitForDatabase
-        installWordPress
-    fi
+    configureWordPress
+    waitForDatabase
+    installWordPress
+    installPlugins
 }
 
 main
