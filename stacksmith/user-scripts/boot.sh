@@ -16,7 +16,12 @@ configureWordPress() {
         --dbname=$DATABASE_NAME \
         --dbuser=$DATABASE_USER \
         --dbpass=$DATABASE_PASSWORD \
-        --skip-check
+        --skip-check \
+        --extra-php <<EOF
+/** Detect current hostname automatically. */
+define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST'] . '/');
+define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/');
+EOF
 }
 
 installWordPress() {
