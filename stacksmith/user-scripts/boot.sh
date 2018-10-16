@@ -17,7 +17,7 @@ configureWordPress() {
         --dbuser=$DATABASE_USER \
         --dbpass=$DATABASE_PASSWORD \
         --skip-check \
-        --extra-php <<EOF
+        --extra-php <<'EOF'
 /** Detect current hostname automatically. */
 define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST'] . '/');
 define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/');
