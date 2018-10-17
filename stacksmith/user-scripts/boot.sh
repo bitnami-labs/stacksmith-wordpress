@@ -9,9 +9,18 @@ waitForDatabase() {
     done
 }
 
+prepareDataToPersist() {
+    if [ -f "${installdir}/wp-content/index.php" ]; then
+        echo "==> The directory is already persisted"
+    else
+        echo "==> Copying original wp-content directory"
+        cp -R /opt/wp-content/. "${installdir}/wp-content/"
+    fi
+}
+
 configureWordPress() {
     echo "==> Configuring WordPress..."
-    wp --path=$installdir core config \
+    wp --path=$installdir --force core config \
         --dbhost="${DATABASE_HOST}:${DATABASE_PORT}" \
         --dbname=$DATABASE_NAME \
         --dbuser=$DATABASE_USER \
@@ -51,6 +60,7 @@ main() {
     # The directory where WordPress is installed
     readonly installdir='/var/www/html'
 
+    prepareDataToPersist
     configureWordPress
     waitForDatabase
     installWordPress

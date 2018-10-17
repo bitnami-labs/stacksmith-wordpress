@@ -21,6 +21,11 @@ downloadWordPress() {
     wp --path=$installdir core download
 }
 
+prepareDataToPersist() {
+    chown -R apache "${installdir}/wp-content"
+    mv "${installdir}/wp-content" /opt/
+}
+
 main() {
     # The directory where WordPress is installed
     readonly installdir='/var/www/html'
@@ -28,6 +33,7 @@ main() {
     installDependencies
     installWordPressCLI
     downloadWordPress
+    prepareDataToPersist
 }
 
 main
