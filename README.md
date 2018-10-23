@@ -1,3 +1,5 @@
+[![View in Stacksmith](https://img.shields.io/badge/view_in-stacksmith-00437B.svg)](https://stacksmith.bitnami.com/p/bitnami-public/apps/4f082da0-b4de-0136-ead5-3274f7efdee3)
+
 # Generic application with DB (MySQL): WordPress
 
 This is a simple guide to show how to deploy WordPress using [Bitnami Stacksmith](https://stacksmith.bitnami.com).
