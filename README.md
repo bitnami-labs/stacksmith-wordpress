@@ -2,7 +2,7 @@
 
 # Generic application with DB (MySQL): WordPress
 
-This is a simple guide to show how to deploy WordPress using [Bitnami Stacksmith](https://stacksmith.bitnami.com).
+This is a simple guide to show how to deploy the latest version of WordPress using [Bitnami Stacksmith](https://stacksmith.bitnami.com).
 
 ## Package and deploy with Stacksmith
 
@@ -10,8 +10,8 @@ This is a simple guide to show how to deploy WordPress using [Bitnami Stacksmith
 2. Create a new application and select the `Generic application with DB (MySQL)` stack template.
 3. Select the targets you are interested on (AWS, Kubernetes,...).
 4. Select `Git repository` for the application scripts and paste the URL of this repo. Use `master` as the `Repository Reference`.
-5. Click the <kbd>Create</kbd> button.
-6. Wait for app to be built and deploy it in your favorite target platform.
+5. Click the <kbd>Create</kbd> button. This will start building an image for the latest available version of WordPress for each of your selected targets.
+6. Wait for the latest version of WordPress to be built, and deploy it in your favorite target platform.
 
 Stacksmith will compare the latest commit for a reference (e.g. new commits made to a branch) against the last commit used during packaging. If there are any new commits available, these will be available to view within the `Repository Details` pane in the application history. If you choose to repackage your application, these newer commits will be incorporated and used during the packaging.
 
@@ -25,7 +25,7 @@ Stacksmith will compare the latest commit for a reference (e.g. new commits made
    ```bash
    stacksmith build --target docker
    ```
-5. Wait for app to be built and deploy it in your favorite target platform.
+5. Wait for the latest version of WordPress to be built, and deploy it in your favorite target platform.
 
 ## Scripts
 
@@ -169,7 +169,7 @@ Package the files again as a `tar.gz`. Go to `Settings` > `Stack Templates` > `C
 
 Go to your application and click on <kbd>Edit Configuration</kbd>. Select the new stack template that you have just created and click on <kbd>Update</kbd>.
 
-That's all! Stacksmith will repackage WordPress with your custom stack template. When you want to deploy the new Helm Chart, make sure you enable the persistence. Otherwise, it will behave as the generic stack template:
+That's all! Stacksmith will repackage the latest available version of WordPress with your custom stack template. When you want to deploy the new Helm Chart, make sure you enable the persistence. Otherwise, it will behave as the generic stack template:
 
 ```bash
 helm install yourapp.tgz --set persistence.enabled=true
