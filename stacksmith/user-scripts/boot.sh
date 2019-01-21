@@ -7,6 +7,8 @@ getSSLCA() {
         echo "/opt/stacksmith/stacksmith-scripts/extra/rds-combined-ca-bundle.pem"
     elif [ -f "/opt/azure-db.crt.pem" ]; then
 	echo "/opt/azure-db.crt.pem"
+    elif [ -f "/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt" ]; then
+	echo "/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt"
     else
 	echo ""
     fi
