@@ -8,7 +8,7 @@ This is a simple guide to show how to deploy the latest version of WordPress usi
 
 1. Go to [stacksmith.bitnami.com](https://stacksmith.bitnami.com).
 2. Create a new application and select the `Generic application with DB (MySQL)` stack template.
-3. Select the targets you are interested on (AWS, Kubernetes,...).
+3. Select the targets you are interested on (AWS, Azure, Kubernetes,...).
 4. Select `Git repository` for the application scripts and paste the URL of this repo. Use `master` as the `Repository Reference`.
 5. Click the <kbd>Create</kbd> button. This will start building an image for the latest available version of WordPress for each of your selected targets.
 6. Wait for the latest version of WordPress to be built, and deploy it in your favorite target platform.
@@ -52,7 +52,7 @@ This script takes care of starting the application.
 You can add extra plugins by specifing them in the `boot.sh` script:
 
 ```bash
-readonly plugin_names="akismet all-in-one-wp-migration"
+readonly plugin_names="akismet all-in-one-wp-migration secure-db-connection"
 ```
 
 You can also download the zip files in <https://wordpress.org/plugins/> and add them as `Application files` in the Stacksmith UI. Then, Stacksmith will repackage your application with those plugins.
@@ -102,7 +102,7 @@ Unpack the downloaded tarball and edit the following files:
   +  ## If defined, storageClassName: <storageClass>
   +  ## If set to "-", storageClassName: "", which disables dynamic provisioning
   +  ## If undefined (the default) or set to null, no storageClassName spec is
-  +  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  +  ##   set, choosing the default provisioner. (gp2 on AWS, standard on
   +  ##   GKE, AWS & OpenStack)
   +  ##
   +  # storageClass: "-"

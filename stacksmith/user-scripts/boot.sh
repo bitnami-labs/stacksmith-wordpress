@@ -2,8 +2,24 @@
 
 set -euo pipefail
 
+getSSLCA() {
+    if [ -f "/opt/stacksmith/stacksmith-scripts/extra/rds-combined-ca-bundle.pem" ]; then
+        echo "/opt/stacksmith/stacksmith-scripts/extra/rds-combined-ca-bundle.pem"
+    elif [ -f "/opt/azure-db.crt.pem" ]; then
+	echo "/opt/azure-db.crt.pem"
+    elif [ -f "/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt" ]; then
+	echo "/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt"
+    else
+	echo ""
+    fi
+}
+
 waitForDatabase() {
-    while ! wp --path=$installdir db check --quiet; do
+    local command=("wp" "--path=$installdir" "db" "check" "--quiet")
+    if [ -n "$(getSSLCA)" ]; then
+        command=("${command[@]}" "--ssl-ca=$(getSSLCA)")
+    fi
+    while ! "${command[@]}"; do
         echo "==> Waiting for database to become available..."
         sleep 2
     done
@@ -26,10 +42,14 @@ configureWordPress() {
         --dbuser=$DATABASE_USER \
         --dbpass=$DATABASE_PASSWORD \
         --skip-check \
-        --extra-php <<'EOF'
+        --extra-php <<EOF
 /** Detect current hostname automatically. */
-define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST'] . '/');
-define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/');
+define('WP_SITEURL', 'http://' . \$_SERVER['HTTP_HOST'] . '/');
+define('WP_HOME', 'http://' . \$_SERVER['HTTP_HOST'] . '/');
+
+/** Force SSL for database connections */
+define('MYSQL_CLIENT_FLAGS', MYSQLI_CLIENT_SSL);
+define('MYSQL_SSL_CA', '$(getSSLCA)');
 EOF
 }
 
@@ -44,7 +64,7 @@ installWordPress() {
 }
 
 installPlugins() {
-    readonly plugin_names="akismet all-in-one-wp-migration"
+    readonly plugin_names="akismet all-in-one-wp-migration secure-db-connection"
 
     echo "==> Installing plugins by name..."
     wp --path=$installdir plugin install $plugin_names --activate
