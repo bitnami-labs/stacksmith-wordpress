@@ -21,6 +21,12 @@ downloadWordPress() {
     wp --path=$installdir core download
 }
 
+downloadSSLCertificates() {
+    echo "==> Downloading SSL certificates..."
+    # ref: https://docs.microsoft.com/en-us/azure/mysql/howto-configure-ssl
+    curl -Lo '/opt/azure-db.crt.pem' https://www.digicert.com/CACerts/BaltimoreCyberTrustRoot.crt.pem
+}
+
 prepareDataToPersist() {
     chown -R apache "${installdir}/wp-content"
     mv "${installdir}/wp-content" /opt/
@@ -33,6 +39,7 @@ main() {
     installDependencies
     installWordPressCLI
     downloadWordPress
+    downloadSSLCertificates
     prepareDataToPersist
 }
 
